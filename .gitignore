@@ -32,3 +32,5 @@ MANIFEST
 devlab/
 test-app/
 
+# vim
+*.swp
