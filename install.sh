@@ -10,35 +10,43 @@ echo "Polybox installer"
 
 sudo apt-get update
 sudo apt-get install -y \
-   bc \
-   curl \
-   software-properties-common \
-   cron \
    build-essential \
-   certbot \
+   cron \
+   curl \
    git \
    incron \
    libjpeg-dev \
    libxml2-dev \
    libxslt1-dev \
-   zlib1g-dev \
    nginx-full \
-   python3 \
-   python3-certbot-nginx \
-   python3-dev \
-   python3-pip \
-   python3-click \
-   python3-virtualenv \
-   python-yaml \
-   uwsgi \
-   uwsgi-plugin-asyncio-python3 \
-   uwsgi-plugin-gevent-python3 \
-   uwsgi-plugin-python3 \
-   uwsgi-plugin-tornado-python3 \
-   php-fpm \
+   nodeenv \
    nodejs \
    npm \
-   nodeenv
+   php-fpm \
+   python3 \
+   python3-click \
+   python3-dev \
+   python3-mako \
+   python3-pip \
+   python3-virtualenv \
+   python3-yaml \
+   software-properties-common \
+   uwsgi \
+   uwsgi-plugin-asyncio-python3 \
+   uwsgi-plugin-python3 \
+   zlib1g-dev
+
+UBUNTU_VERSION="$(lsb_release -sr)"
+if [ "$UBUNTU_RELEASE" == "20.04" ]; then
+   sudo apt-get install -y \
+      uwsgi-plugin-gevent-python3 \
+      uwsgi-plugin-tornado-python3
+elif [ "$UBUNTU_RELEASE" == "18.04" ]; then
+   echo
+else
+   echo "Unsupported release"
+   exit 1
+fi
 
 # Create user
 id -u $PAAS_USERNAME &>/dev/null || \
@@ -63,5 +71,5 @@ sudo cp /tmp/incron.conf /etc/incron.d/polybox
 sudo cp /tmp/index.polybox.html /var/www/html
 sudo systemctl restart nginx
 
-echo ""
+echo
 echo "Polybox installation complete!"
